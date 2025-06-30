@@ -17,7 +17,6 @@ A flexible, scalable job scheduling and execution system built with Python. This
   - [Delete a Job](#delete-a-job)
 - [Development](#development)
 - [Contributing](#contributing)
-- [License](#license)
 
 ---
 
