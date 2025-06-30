@@ -1,4 +1,4 @@
-from fastapi import APIRouter, WebSocket, HTTPException
+from fastapi import APIRouter, WebSocket, HTTPException, Body
 from app.services.scheduler_service import (
     submit_job, get_job, list_jobs, cancel_job, get_logs, job_streamer
 )
@@ -6,16 +6,22 @@ from app.services.scheduler_service import (
 router = APIRouter()
 
 @router.post("/")
-async def create_job(job_data: dict):
-    return await submit_job(job_data)
+async def create_jobs(jobs_data: list[dict] = Body(...)):
+    results = []
+    for job_data in jobs_data:
+        result = await submit_job(job_data)
+        results.append(result)
+    return results
 
 @router.get("/{job_id}")
 async def get_job_status(job_id: str):
-    return await get_job(job_id)
+    job = await get_job(job_id)
+    return job
 
 @router.get("/list")
 async def list_all_jobs():
-    return await list_jobs()
+    jobs = await list_jobs()
+    return jobs
 
 @router.patch("/{job_id}/cancel")
 async def cancel(job_id: str):

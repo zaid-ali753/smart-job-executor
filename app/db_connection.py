@@ -5,7 +5,7 @@ DATABASE_URL = "postgresql://postgres:postgres@db:5432/taskdb"
 
 engine = create_engine(
     DATABASE_URL,
-    pool_size=20,         
+    pool_size=200,         
     max_overflow=30,     
     pool_timeout=30,  
 )

@@ -60,7 +60,7 @@ For more details, see [ARCHITECTURE.md](ARCHITECTURE.md).
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/smart-job-executor.git
+   git clone https://github.com/zaid-ali753/smart-job-executor.git
    cd smart-job-executor
    ```
 

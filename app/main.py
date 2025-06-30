@@ -1,16 +1,16 @@
 from fastapi import FastAPI
 from app.routes import job_routes
+import asyncio
+from app.workers.scheduler import scheduler_loop
 
 app = FastAPI()
 
-app.include_router(job_routes.router, prefix="/jobs", tags=["Jobs"])
+app.include_router(job_routes.router, prefix="/jobs")
 
-# Run background scheduler
-from app.workers.scheduler import start_scheduler
 
 @app.on_event("startup")
 async def startup_event():
-    await start_scheduler()
+    asyncio.create_task(scheduler_loop())
 
 @app.get("/")
 def health():

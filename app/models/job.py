@@ -12,6 +12,9 @@ class JobTracker(str, enum.Enum):
     COMPLETED = "COMPLETED"
     FAILED = "FAILED"
     CANCELED = "CANCELED"
+    READY = "READY"
+    BLOCKED = "BLOCKED"
+
 
 class ScheduledJobs(Base):
     __tablename__ = "scheduledJobs"
@@ -20,13 +23,10 @@ class ScheduledJobs(Base):
     type = Column(String, nullable=False)
     priority = Column(String, default="normal")
     payload = Column(JSON)
-    resource_cpu = Column(Integer)
-    resource_memory = Column(Integer)
+    resource_requirements = Column(JSON, default={})
     depends_on = Column(JSON, default=[])
-    retry_attempts = Column(Integer, default=0)
-    max_attempts = Column(Integer, default=3)
-    backoff_multiplier = Column(Integer, default=2)
-    timeout_seconds = Column(Integer, default=300)
+    retry_config = Column(JSON, default={})
+    timeout_seconds = Column(Integer, default=None)
     status = Column(Enum(JobTracker), default=JobTracker.PENDING)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
